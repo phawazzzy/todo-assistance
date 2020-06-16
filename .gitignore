@@ -44,3 +44,4 @@ app.*.map.json
 
 # google services
 **/android/app/google-services.json
+secrets.tar
