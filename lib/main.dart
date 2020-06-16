@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoassistance/onboarding/onboardScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return OnBoard();
   }
 }
 
