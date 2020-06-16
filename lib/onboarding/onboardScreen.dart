@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todoassistance/onboarding/data.dart';
 
 int slideIndex = 0;
+PageController pageController;
+
 class OnBoard extends StatefulWidget {
   @override
   _OnBoardState createState() => _OnBoardState();
@@ -8,7 +11,17 @@ class OnBoard extends StatefulWidget {
 
 class _OnBoardState extends State<OnBoard> {
 
-  PageController pageController = PageController(initialPage: 0);
+  List<SliderModel> mySlides = List<SliderModel>();
+
+//  PageController pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mySlides = getSlides();
+    pageController = PageController();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,20 +40,11 @@ class _OnBoardState extends State<OnBoard> {
               });
             },
             children: <Widget>[
-              SlideTile(
-                imagePath: 'asset/images/onboard1.png',
-                title: 'Welcome to Todo Assistance',
-                desc: 'this is the dexcription',
-              ),
-              SlideTile(
-                imagePath: 'asset/images/onboard1.png',
-                title: 'Keep Track',
-                desc: 'this is the dexcription',
-              ),
-              SlideTile(
-                imagePath: 'asset/images/onboard1.png',
-                title: 'Automatically organize',
-                desc: 'this is the dexcription',
+              for(int i =0 ; i< mySlides.length; i++)  SlideTile(
+                imagePath: mySlides[i].getImageAssetPath(),
+                title: mySlides[i].getTitle(),
+                desc: mySlides[i].getDesc(),
+                slidelength: mySlides.length,
               ),
             ],
           ),
@@ -52,8 +56,9 @@ class _OnBoardState extends State<OnBoard> {
 
 class SlideTile extends StatelessWidget {
   String imagePath, title, desc;
+  int slidelength;
 
-  SlideTile({this.imagePath, this.title, this.desc});
+  SlideTile({this.imagePath, this.title, this.desc, this.slidelength});
 //  int slideIndex = 0;
 
   Widget pageIndicator(bool isCurrentPage) {
@@ -86,18 +91,20 @@ class SlideTile extends StatelessWidget {
             height: 12,
           ),
           Text(desc),
+          SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              for (int i = 0; i < 3; i++)
+              for (int i = 0; i < slidelength; i++)
                 i == slideIndex ? pageIndicator(true) : pageIndicator(false),
             ],
           ),
           SizedBox(
             height: 20,
           ),
-          slideIndex == 2 ?
+          slideIndex == slidelength -1?
           Container(
+            margin: EdgeInsets.only(right: 20.0, top: 50.0, left: 20.0),
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             width: MediaQuery.of(context).size.width - 200,
             decoration: BoxDecoration(
@@ -117,12 +124,16 @@ class SlideTile extends StatelessWidget {
                 children: <Widget>[
                   InkWell(
                     splashColor: Color(0xFF6C6FFF),
-                    onTap: () {},
+                    onTap: () {
+                      pageController.animateToPage(slidelength -1, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                    },
                     child: Text('SKIP', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
                   ),
                   InkWell(
                     splashColor: Color(0xFF6C63FF),
-                    onTap: () {},
+                    onTap: () {
+                      pageController.animateToPage(slideIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                    },
                     child: Text('NEXT', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
                   ),
                 ]),
