@@ -56,7 +56,7 @@ List<SliderModel> getSlides(){
 
   //3
   sliderModel.setDesc("Lorem ipsum dolor sit amet, consectetur adipiscing elit ut ");
-  sliderModel.setTitle("Automatically organiz");
+  sliderModel.setTitle("Automatically organize");
   sliderModel.setImageAssetPath("asset/images/onboard3.png");
   slides.add(sliderModel);
 
