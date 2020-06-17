@@ -22,31 +22,61 @@ class _OnBoardState extends State<OnBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 30,
-          ),
-          height: MediaQuery.of(context).size.height,
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              setState(() {
-                slideIndex = index;
-              });
-            },
-            children: <Widget>[
-              for (int i = 0; i < mySlides.length; i++)
-                SlideTile(
-                  imagePath: mySlides[i].getImageAssetPath(),
-                  title: mySlides[i].getTitle(),
-                  desc: mySlides[i].getDesc(),
-                  slideLength: mySlides.length,
+      bottomSheet: Container(
+//        color: Colors.green,
+        margin: EdgeInsets.only(right: 20.0, bottom: 20.0, left: 20.0),
+        child: Visibility(
+          visible: slideIndex == mySlides.length - 1 ? false : true,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                InkWell(
+                  splashColor: Color(0xFF6C6FFF),
+                  onTap: () {
+                    pageController.animateToPage(3 - 1,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.linear);
+                  },
+                  child: Text(
+                    'SKIP',
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                 ),
-            ],
-          ),
+                InkWell(
+                  splashColor: Color(0xFF6C63FF),
+                  onTap: () {
+                    pageController.animateToPage(slideIndex + 1,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.linearToEaseOut);
+                  },
+                  child: Text(
+                    'NEXT',
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ]),
+        ),
+      ),
+//      backgroundColor: Colors.red,
+      body: SafeArea(
+        child: PageView(
+          controller: pageController,
+          onPageChanged: (index) {
+            setState(() {
+              slideIndex = index;
+            });
+          },
+          children: <Widget>[
+            for (int i = 0; i < mySlides.length; i++)
+              SlideTile(
+                imagePath: mySlides[i].getImageAssetPath(),
+                title: mySlides[i].getTitle(),
+                desc: mySlides[i].getDesc(),
+                slideLength: mySlides.length,
+              ),
+          ],
         ),
       ),
     );
@@ -75,90 +105,67 @@ class SlideTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+//      margin: EdgeInsets.symmetric(vertical: 40),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset('asset/images/logo.png'),
-          SizedBox(
-            height: 12,
-          ),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Image.asset(imagePath),
-          SizedBox(
-            height: 12,
-          ),
-          Text(desc),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              for (int i = 0; i < slideLength; i++)
-                i == slideIndex ? pageIndicator(true) : pageIndicator(false),
+              Image.asset('asset/images/logo.png'),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Image.asset(imagePath),
+              SizedBox(
+                height: 12,
+              ),
+              Text(desc),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  for (int i = 0; i < slideLength; i++)
+                    i == slideIndex ? pageIndicator(true) : pageIndicator(false),
+                ],
+              ),
             ],
           ),
           SizedBox(
             height: 20,
           ),
-          slideIndex == slideLength - 1
-              ? Container(
-                  margin: EdgeInsets.only(right: 20.0, top: 50.0, left: 20.0),
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  width: MediaQuery.of(context).size.width - 200,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF6C63FF),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Get Started',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                )
-              : Expanded(
+          Visibility(
+            visible: slideIndex == slideLength - 1 ? true : false,
+                child: GestureDetector(
+                  onTap: () {},
                   child: Container(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    margin: EdgeInsets.only(right: 20.0, top: 70.0, left: 20.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          InkWell(
-                            splashColor: Color(0xFF6C6FFF),
-                            onTap: () {
-                              pageController.animateToPage(slideLength - 1,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.linear);
-                            },
-                            child: Text(
-                              'SKIP',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          InkWell(
-                            splashColor: Color(0xFF6C63FF),
-                            onTap: () {
-                              pageController.animateToPage(slideIndex + 1,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.linear);
-                            },
-                            child: Text(
-                              'NEXT',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ]),
-                  ),
-                )
+                      margin: EdgeInsets.only(right: 20.0, top: 42.0, left: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      width: MediaQuery.of(context).size.width - 200,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF6C63FF),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Get Started',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                ),
+              )
         ],
       ),
     );
