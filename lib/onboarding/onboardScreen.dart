@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoassistance/onboarding/data.dart';
+import 'package:todoassistance/shared/size_config.dart';
 
 int slideIndex = 0;
 PageController pageController;
@@ -21,10 +22,11 @@ class _OnBoardState extends State<OnBoard> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       bottomSheet: Container(
 //        color: Colors.green,
-        margin: EdgeInsets.only(right: 20.0, bottom: 20.0, left: 20.0),
+        margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 20.0, bottom: SizeConfig.blockSizeVertical * 20.0, left: SizeConfig.blockSizeHorizontal * 20.0),
         child: Visibility(
           visible: slideIndex == mySlides.length - 1 ? false : true,
           child: Row(
@@ -40,7 +42,7 @@ class _OnBoardState extends State<OnBoard> {
                   child: Text(
                     'SKIP',
                     style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w500),
+                        fontSize: SizeConfig.safeBlockVertical * 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 InkWell(
@@ -53,7 +55,7 @@ class _OnBoardState extends State<OnBoard> {
                   child: Text(
                     'NEXT',
                     style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w500),
+                        fontSize: SizeConfig.safeBlockVertical * 18, fontWeight: FontWeight.w500),
                   ),
                 ),
               ]),
@@ -93,8 +95,8 @@ class SlideTile extends StatelessWidget {
   Widget pageIndicator(bool isCurrentPage) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 2.0),
-      height: isCurrentPage ? 10.0 : 6.0,
-      width: isCurrentPage ? 10.0 : 6.0,
+      height: isCurrentPage ? SizeConfig.blockSizeVertical * 10.0 : SizeConfig.blockSizeVertical * 6.0,
+      width: isCurrentPage ? SizeConfig.blockSizeHorizontal * 10.0 : SizeConfig.blockSizeHorizontal * 6.0,
       decoration: BoxDecoration(
         color: isCurrentPage ? Color(0xFF6C63FF) : Colors.grey,
         borderRadius: BorderRadius.circular(12),
