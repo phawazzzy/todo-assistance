@@ -8,6 +8,16 @@ const KTextInputDeco = InputDecoration(
     borderRadius:
     BorderRadius.all(Radius.circular(32.0)),
   ),
+  errorBorder: OutlineInputBorder(
+    borderSide:
+    BorderSide(color: Colors.red, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0),),
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderSide:
+    BorderSide(color: Colors.red, width: 1.0),
+    borderRadius: BorderRadius.all(Radius.circular(32.0),),
+  ),
   enabledBorder: OutlineInputBorder(
     borderSide:
     BorderSide(color: Color(0xFF6C63FF), width: 1.0),

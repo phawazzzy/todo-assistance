@@ -21,15 +21,26 @@ class Button extends StatelessWidget {
       elevation: 4.0,
       child: FlatButton(
         onPressed: () {
-          onPressed;
+          onPressed();
         },
         child: Center(
           child: Text(
             buttonText,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(fontSize: 20, color: Colors.white),
           ),
         ),
       ),
     );
   }
 }
+
+
+//RichText(
+//text: TextSpan(
+//text: 'New user? ',
+//style: DefaultTextStyle.of(context).style,
+//children: <TextSpan>[
+//TextSpan(text: ' Sign In', style: TextStyle(color: Color(0xFF6C63FF))),
+//],
+//),
+//)

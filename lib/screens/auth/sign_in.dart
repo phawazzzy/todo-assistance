@@ -36,28 +36,68 @@ class SignIn extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
+                        validator: (value) => value.isEmpty ? 'email is required' : null,
                         onChanged: (value) => print(value),
                         keyboardType: TextInputType.emailAddress,
-                        decoration: KTextInputDeco.copyWith(labelText: 'Email', hintText: 'Jonhdoe@mail.com'),
+                        decoration: KTextInputDeco.copyWith(
+                            labelText: 'Email', hintText: 'Jonhdoe@mail.com'),
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        decoration: KTextInputDeco.copyWith(hintText: '*******', labelText: 'password'),
+                        obscureText: true,
+                        validator: (value) => value.length <= 6  ? 'at least six charaters' : null,
+                        decoration: KTextInputDeco.copyWith(
+                            hintText: '*******', labelText: 'password'),
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0, top: 10.0),
+                            child: InkWell(
+                              onTap: () => print('forget password'),
+                              child: Text(
+                                'Forget Password?',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromRGBO(108, 99, 255, 0.9),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 18,
                       ),
-                      Button(buttonText: 'Sign Up', onPressed: () {print('this is me');},),
+                      Button(
+                        buttonText: 'Sign In',
+                        onPressed: () {
+                          _formKey.currentState.validate();
+                        },
+                      ),
                       SizedBox(
                         height: 18,
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Register()));
 
                           print('hello');
                         },
-                        child: Text('New user? SignUp'),
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'New User? ',
+                            style: TextStyle(color: Colors.grey),
+                            children: <TextSpan>[
+                              TextSpan(text: ' Sign Up', style: TextStyle(color: Color(0xFF6C63FF),),),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -71,23 +111,3 @@ class SignIn extends StatelessWidget {
   }
 }
 
-
-//Row(
-//children: <Widget>[
-//Checkbox(value: false, onChanged: (value) {}),
-//Text(
-//'Remember me',
-//style: TextStyle(fontSize: 12),
-//),
-//SizedBox(
-//width: 20,
-//),
-//Text(
-//'Forget Password?',
-//style: TextStyle(
-//fontSize: 12,
-//color: Color.fromRGBO(108, 99, 255, 0.9),
-//),
-//),
-//],
-//),
