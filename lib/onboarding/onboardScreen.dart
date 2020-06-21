@@ -152,6 +152,7 @@ class SlideTile extends StatelessWidget {
             visible: slideIndex == slideLength - 1 ? true : false,
                 child: GestureDetector(
                   onTap: () {
+                    CircularProgressIndicator();
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Register()));
                   },
                   child: Container(
